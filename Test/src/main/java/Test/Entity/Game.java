@@ -2,45 +2,38 @@ package Test.Entity;
 
 import java.util.*;
 
-public class Game
-{
+public class Game {
 	private CardPile pile;
 	private Player dealer;
 	private LinkedList<Player> playerList;
 
-	public Game()
-	{
-		pile=new CardPile();
-		playerList=new LinkedList<>();
-		for(int i=0;i<Parameters.getPlayerNumber();i++)
-		{
+	public Game() {
+		pile = new CardPile();
+		playerList = new LinkedList<>();
+		for (int i = 0; i < Parameters.getPlayerNumber(); i++) {
 			playerList.addLast(new Player());
 		}
 
-		dealer=new Player();
+		dealer = new Player();
 	}
 
 	//! @Description 新一局游戏开始时的初始化工作，包括玩家信息，牌堆和牌
 	//! @param null
 	//! @return
 	//! throws
-	public void Init()
-	{
+	public void Init() {
 		System.out.println("New Game!");
 		dealer.Clear();
-		for(Player player: playerList)
-		{
+		for (Player player : playerList) {
 			player.Clear();
 		}
 
 		pile.onStartNewGame();
-		for(Player player: playerList)
-		{
+		for (Player player : playerList) {
 			player.receiveCard(pile.DealCard());
 		}
 		dealer.receiveCard(pile.DealCard());
-		for(Player player: playerList)
-		{
+		for (Player player : playerList) {
 			player.receiveCard(pile.DealCard());
 		}
 		dealer.receiveCard(pile.DealCard());
@@ -50,23 +43,20 @@ public class Game
 	//! @param null
 	//! @return
 	//! throws
-	private void displayInstruction(Player player)
-	{
-		System.out.print("Your bet:"+player.getBet()+"\n");
-		System.out.print("Your current money:"+player.getCurrentMoney()+"\n");
+	private void displayInstruction(Player player) {
+		System.out.print("Your bet:" + player.getBet() + "\n");
+		System.out.print("Your current money:" + player.getCurrentMoney() + "\n");
 		System.out.print("You have these cards:");
-		for(Card r: player.getReceivedCards())
-		{
-			System.out.print(r.getFaceValue()+",");
+		for (Card r : player.getReceivedCards()) {
+			System.out.print(r.getFaceValue() + ",");
 		}
 		System.out.print("\nDealer has:");
 
 		System.out.print(dealer.getReceivedCards().get(0).getFaceValue());
-		if(dealer.getReceivedCards().size()>1)
+		if (dealer.getReceivedCards().size() > 1)
 			System.out.print(",Secret");
-		for(int i=2;i<dealer.getReceivedCards().size();i++)
-		{
-			System.out.print(","+dealer.getReceivedCards().get(i).getFaceValue());
+		for (int i = 2; i < dealer.getReceivedCards().size(); i++) {
+			System.out.print("," + dealer.getReceivedCards().get(i).getFaceValue());
 		}
 		System.out.print("\n1. Double\n2. PASS\n3. More Card\n4. Back\n5. All Players' Information\n");
 	}
@@ -75,14 +65,11 @@ public class Game
 	//! @param null
 	//! @return
 	//! throws
-	private void showOtherPlayerInf()
-	{
-		for(Player r: playerList)
-		{
-			System.out.print("Player "+r.getIndex()+" has these cards:");
-			for(Card t: r.getReceivedCards())
-			{
-				System.out.print(t.getFaceValue()+",");
+	private void showOtherPlayerInf() {
+		for (Player r : playerList) {
+			System.out.print("Player " + r.getIndex() + " has these cards:");
+			for (Card t : r.getReceivedCards()) {
+				System.out.print(t.getFaceValue() + ",");
 			}
 			System.out.print("\n");
 		}
@@ -92,13 +79,11 @@ public class Game
 	//! @param null
 	//! @return
 	//! throws
-	private boolean Settle(Player player)
-	{
+	private boolean Settle(Player player) {
 //		int dealResult=dealer.getCardValueSum();
-		int currentResult=player.getCardValueSum();
-		if(currentResult>Parameters.getTargetPoint())
-		{
-			System.out.print(player.getIndex()+" Lose.\n");
+		int currentResult = player.getCardValueSum();
+		if (currentResult > Parameters.getTargetPoint()) {
+			System.out.print(player.getIndex() + " Lose.\n");
 			player.setLose(true);
 			return false;
 		}
@@ -127,32 +112,24 @@ public class Game
 	//! @param null
 	//! @return
 	//! throws
-	private boolean Deal(Player player)
-	{
-		if(player.getCardNumber()<Parameters.getMaxCardNumber())
-		{
+	private boolean Deal(Player player) {
+		if (player.getCardNumber() < Parameters.getMaxCardNumber()) {
 			player.receiveCard(pile.DealCard());
 			return true;
-		}
-		else
-		{
+		} else {
 			System.out.print("Can not get more card. Please show the card you have.\n");
 			return false;
 		}
 	}
 
-	private int readNumber()
-	{
-		try
-		{
-			int result=0;
-			Scanner sc=new Scanner(System.in);
-			String input=sc.nextLine();
-			result=Integer.parseInt(input);
+	private int readNumber() {
+		try {
+			int result = 0;
+			Scanner sc = new Scanner(System.in);
+			String input = sc.nextLine();
+			result = Integer.parseInt(input);
 			return result;
-		}
-		catch(NumberFormatException e)
-		{
+		} catch (NumberFormatException e) {
 			System.out.print("Please enter a vaild number.\n");
 			return readNumber();
 		}
@@ -163,46 +140,37 @@ public class Game
 	//! @param null
 	//! @return
 	//! throws
-	private void PlayerProcess(Player player)
-	{
-		for(;;)
-		{
+	private void PlayerProcess(Player player) {
+		for (; ; ) {
 			displayInstruction(player);
-			int option=readNumber();
-			switch(option)
-			{
-				case 1:
-				{
-					player.setCurrentMoney(player.getCurrentMoney()-player.getBet());
-					player.setBet(player.getBet()*2);
+			int option = readNumber();
+			switch (option) {
+				case 1: {
+					player.setCurrentMoney(player.getCurrentMoney() - player.getBet());
+					player.setBet(player.getBet() * 2);
 					break;
 				}
-				case 2:
-				{
+				case 2: {
 					return;
 				}
-				case 3:
-				{
-					if(!Deal(player))
-						if(!Settle(player))
-						{
+				case 3: {
+					if (!Deal(player)) {
+						if (!Settle(player)) {
 							player.setLose(true);
 							return;
 						}
+					}
 					break;
 				}
-				case 4:
-				{
+				case 4: {
 					player.setLose(true);
 					return;
 				}
-				case 5:
-				{
+				case 5: {
 					showOtherPlayerInf();
 					break;
 				}
-				default:
-				{
+				default: {
 					System.out.print("Please enter valid option.\n");
 					break;
 				}
@@ -214,18 +182,17 @@ public class Game
 	//! @param null
 	//! @return
 	//! throws
-	public void MainProcess()
-	{
+	public void MainProcess() {
 
-		for(Player player: playerList)
-		{
-			if(player.isLose())
+		for (Player player : playerList) {
+			if (player.isLose()) {
 				continue;
-			System.out.print("Player "+player.getIndex()+"'s turn.\n");
+			}
+			System.out.print("Player " + player.getIndex() + "'s turn.\n");
 			System.out.print("Enter money:\n");
-			int money=readNumber();
+			int money = readNumber();
 
-			player.setCurrentMoney(player.getCurrentMoney()-money);
+			player.setCurrentMoney(player.getCurrentMoney() - money);
 			player.setBet(money);
 			PlayerProcess(player);
 //			if(PlayerProcess(player))
@@ -238,56 +205,54 @@ public class Game
 //			if(playerList.isEmpty())
 //				break;
 		}
-		for(;dealer.getCardValueSum()<Parameters.getDealerPointInferiorLimit();)
-			dealer.receiveCard(pile.DealCard());
-		System.out.print("Dealer has these cards:");
-		for(Card card: dealer.getReceivedCards())
-			System.out.print(card.getFaceValue()+",");
-		System.out.print("\n");
 
-		int dealerResult=dealer.getCardValueSum();
-		int maxValue=0, maxIndex=-1;
-		for(Player player: playerList)
-		{
-			if(player.getCardValueSum()>Parameters.getTargetPoint())
-			{
+		//	change these lines into a method!
+		//	from here
+		for (; dealer.getCardValueSum() < Parameters.getDealerPointInferiorLimit(); ) {
+			dealer.receiveCard(pile.DealCard());
+		}
+		System.out.print("Dealer has these cards:");
+		for (Card card : dealer.getReceivedCards()) {
+			System.out.print(card.getFaceValue() + ",");
+		}
+		System.out.print("\n");
+		//	to here
+
+		//	change these lines into a method!
+		//	from here
+		int dealerResult = dealer.getCardValueSum();
+		int maxValue = 0, maxIndex = -1;
+		for (Player player : playerList) {
+			if (player.getCardValueSum() > Parameters.getTargetPoint()) {
 				player.setLose(true);
 				continue;
 			}
-			if(player.getCardValueSum()>maxValue)
-			{
-				maxIndex=player.getIndex();
-				maxValue=player.getCardValueSum();
+			if (player.getCardValueSum() > maxValue) {
+				maxIndex = player.getIndex();
+				maxValue = player.getCardValueSum();
 			}
 		}
 
-		if(dealerResult>Parameters.getTargetPoint())
-		{
-			for(Player player: playerList)
-			{
-				if(!player.isLose())
-				{
-					player.setCurrentMoney(player.getCurrentMoney()+player.getBet()*Parameters.getBonusRatio());
-					System.out.print("Player "+player.getIndex()+" Wins.\n");
+		if (dealerResult > Parameters.getTargetPoint()) {
+			for (Player player : playerList) {
+				if (!player.isLose()) {
+					player.setCurrentMoney(player.getCurrentMoney() + player.getBet() * Parameters.getBonusRatio());
+					System.out.print("Player " + player.getIndex() + " Wins.\n");
 				}
 			}
-		}
-		else
-		{
-			if(maxValue>dealerResult)
-			{
-				for(Player player: playerList)
-					if(player.getIndex()==maxIndex)
-					{
-						player.setCurrentMoney(player.getCurrentMoney()+player.getBet()*Parameters.getBonusRatio());
-						System.out.print("Player "+player.getIndex()+" Wins.\n");
+		} else {
+			if (maxValue > dealerResult) {
+				for (Player player : playerList) {
+					if (player.getIndex() == maxIndex) {
+						player.setCurrentMoney(player.getCurrentMoney() + player.getBet() * Parameters.getBonusRatio());
+						System.out.print("Player " + player.getIndex() + " Wins.\n");
 					}
-			}
-			else
-			{
+				}
+			} else {
 				System.out.print("Dealer Wins.\n");
 			}
 		}
+		//	to here
 	}
 
 }
