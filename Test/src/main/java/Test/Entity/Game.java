@@ -141,13 +141,22 @@ public class Game
 		}
 	}
 
-	private int readOption()
+	private int readNumber()
 	{
-		int option=0;
-		Scanner sc=new Scanner(System.in);
-		String input=sc.nextLine();
-		option=Integer.parseInt(input);
-		return option;
+		try
+		{
+			int result=0;
+			Scanner sc=new Scanner(System.in);
+			String input=sc.nextLine();
+			result=Integer.parseInt(input);
+			return result;
+		}
+		catch(NumberFormatException e)
+		{
+			System.out.print("Please enter a vaild number.\n");
+			return readNumber();
+		}
+
 	}
 
 	//! @Description 玩家操作的界面
@@ -159,7 +168,7 @@ public class Game
 		for(;;)
 		{
 			displayInstruction(player);
-			int option=readOption();
+			int option=readNumber();
 			switch(option)
 			{
 				case 1:
@@ -214,10 +223,7 @@ public class Game
 				continue;
 			System.out.print("Player "+player.getIndex()+"'s turn.\n");
 			System.out.print("Enter money:\n");
-			int money=0;
-			Scanner sc=new Scanner(System.in);
-			String input=sc.nextLine();
-			money=Integer.parseInt(input);
+			int money=readNumber();
 
 			player.setCurrentMoney(player.getCurrentMoney()-money);
 			player.setBet(money);
@@ -235,7 +241,7 @@ public class Game
 		for(;dealer.getCardValueSum()<Parameters.getDealerPointInferiorLimit();)
 			dealer.receiveCard(pile.DealCard());
 		System.out.print("Dealer has these cards:");
-		for(Card card:dealer.getReceivedCards())
+		for(Card card: dealer.getReceivedCards())
 			System.out.print(card.getFaceValue()+",");
 		System.out.print("\n");
 
