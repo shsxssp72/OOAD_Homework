@@ -42,22 +42,26 @@ public class Card
 		switch(pattern)
 		{
 			case Club:
-				result="Club ";
+				result="Club:";
 				break;
 			case Diamond:
-				result="Diamond ";
+				result="Diamond:";
 				break;
 			case Heart:
-				result="Heart ";
+				result="Heart:";
 				break;
 			case Spade:
-				result="Spade ";
+				result="Spade:";
 				break;
 			default:
 				result="";
 				break;
 		}
-		if(faceValue<11)
+		if(faceValue==1)
+		{
+			result+="A";
+		}
+		else if(faceValue<11)
 		{
 			result+=faceValue;
 		}

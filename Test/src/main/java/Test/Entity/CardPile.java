@@ -41,13 +41,12 @@ public class CardPile
 	//! throws
 	Card DealCard()
 	{
-		//TODO 关于发牌逻辑，若一局游戏中少于一半的动作
 		if(!pile.isEmpty())
 			return pile.remove(0);
 		else
 		{
-			pile.addAll(CardDeck.getACardDeck());
-			return pile.remove(0);
+			System.exit(-1);
+			return new Card(Card.CardPatternType.Diamond,-1,-1,-1);
 		}
 	}
 

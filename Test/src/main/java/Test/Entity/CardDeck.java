@@ -7,12 +7,8 @@ import Test.Entity.Parameters;
 
 import static Test.Entity.Card.CardPatternType.*;
 
-public class CardDeck
+class CardDeck
 {
-	public CardDeck()
-	{
-	}
-
 	private static int localIndex=0;
 
 	//! @Description 返回一整副牌
