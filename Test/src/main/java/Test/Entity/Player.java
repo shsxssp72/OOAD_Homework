@@ -1,32 +1,29 @@
 package Test.Entity;
 
-import java.util.ArrayList;
-
 public class Player
 {
 	private int index;
-	private double bet;
-	private double currentMoney;
+
 	private boolean lose;
-	private ArrayList<Card> receivedCards;
+	private Hand hand;
+	private Cash cash;
 	private static int localIndex=0;
 
 	public Player()
 	{
 		this.index=localIndex;
 		localIndex++;
-		this.bet=0;
-		this.currentMoney=100;
 		this.lose=false;
-		this.receivedCards=new ArrayList<>();
+		hand=new Hand(this.index);
+		cash=new Cash();
 	}
 
 	//	only clears some info since Clear() is used at the start of every game
 	public void Clear()
 	{
-		bet=0;
 		lose=false;
-		receivedCards.clear();
+		hand.Clear();
+		cash.Clear();
 	}
 
 	public int getIndex()
@@ -39,26 +36,6 @@ public class Player
 		this.index=index;
 	}
 
-	public double getBet()
-	{
-		return bet;
-	}
-
-	public void setBet(double bet)
-	{
-		this.bet=bet;
-	}
-
-	public double getCurrentMoney()
-	{
-		return currentMoney;
-	}
-
-	public void setCurrentMoney(double currentMoney)
-	{
-		this.currentMoney=currentMoney;
-	}
-
 	public boolean isLose()
 	{
 		return lose;
@@ -69,43 +46,23 @@ public class Player
 		this.lose=lose;
 	}
 
-	public ArrayList<Card> getReceivedCards()
+	public Hand getHand()
 	{
-		return receivedCards;
+		return hand;
 	}
 
-	public void setReceivedCards(ArrayList<Card> receivedCards)
+	public void setHand(Hand hand)
 	{
-		this.receivedCards=receivedCards;
+		this.hand=hand;
 	}
 
-	public int getCardNumber()
+	public Cash getCash()
 	{
-		return this.receivedCards.size();
+		return cash;
 	}
 
-	public void receiveCard(Card input)
+	public void setCash(Cash cash)
 	{
-		receivedCards.add(input);
-	}
-
-	int getCardValueSum()
-	{
-		int result=0;
-		for(Card r: receivedCards)
-		{
-			if(r.getFigure()==1)//判断Ace
-			{
-				if(result<=Parameters.getTargetPoint()-11)
-					result+=11;
-				else
-					result+=1;
-			}
-			else
-			{
-				result+=r.getFaceValue();
-			}
-		}
-		return result;
+		this.cash=cash;
 	}
 }

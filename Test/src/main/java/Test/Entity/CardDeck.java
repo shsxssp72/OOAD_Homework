@@ -11,10 +11,7 @@ class CardDeck
 {
 	private static int localIndex=0;
 
-	//! @Description 返回一整副牌
-	//! @param null
-	//! @return
-	//! throws
+
 	static LinkedList<Card> getACardDeck()
 	{
 

@@ -12,11 +12,12 @@ public class Main
 		Config.readConfig();
 		Config.VerifyConfig();
 		Game game=new Game();
-		for(;;)
+		for(;game.getCurrentPlayerNumber()!=0;)
 		{
 			game.Init();
 			game.MainProcess();
 		}
+
 	}
 
 

@@ -1,5 +1,7 @@
 package Test.Entity;
 
+import Test.Utility.IO_Interface;
+
 import java.util.*;
 
 public class Game
@@ -7,6 +9,7 @@ public class Game
 	private CardPile pile;
 	private Player dealer;
 	private LinkedList<Player> playerList;
+	ArrayList<Player> naturalBlackJackList;
 
 	public Game()
 	{
@@ -18,15 +21,12 @@ public class Game
 		}
 
 		dealer=new Player();
+		naturalBlackJackList=new ArrayList<>();
 	}
 
-	//! @Description 新一局游戏开始时的初始化工作，包括玩家信息，牌堆和牌
-	//! @param null
-	//! @return
-	//! throws
 	public void Init()
 	{
-		System.out.println("New Game!");
+		IO_Interface.ConsoleWriteLine("New Game!");
 		dealer.Clear();
 		for(Player player: playerList)
 		{
@@ -36,145 +36,156 @@ public class Game
 		pile.onStartNewGame();
 		for(Player player: playerList)
 		{
-			player.receiveCard(pile.DealCard());
+			player.getHand().receiveCard(pile.DealCard());
 		}
-		dealer.receiveCard(pile.DealCard());
+		dealer.getHand().receiveCard(pile.DealCard());
 		for(Player player: playerList)
 		{
-			player.receiveCard(pile.DealCard());
+			player.getHand().receiveCard(pile.DealCard());
 		}
-		dealer.receiveCard(pile.DealCard());
+		dealer.getHand().receiveCard(pile.DealCard());
 	}
 
-	//! @Description 输出指示信息，包括玩家当前信息，庄家的牌，可用选项
-	//! @param null
-	//! @return
-	//! throws
 	private void displayInstruction(Player player)
 	{
-		System.out.print("Your bet:"+player.getBet()+"\n");
-		System.out.print("Your current money:"+player.getCurrentMoney()+"\n");
-
+		IO_Interface.ConsoleWriteLine("");
+		IO_Interface.ConsoleWriteLine("Your bet:"+player.getCash().getBet());
+		IO_Interface.ConsoleWriteLine("Your current money:"+player.getCash().getCurrentMoney());
 		displayPlayerCard(player,"You");
-		System.out.print("Dealer has:[");
-
-		System.out.print(dealer.getReceivedCards().get(0).toString());
-		if(dealer.getReceivedCards().size()>1)
-			System.out.print(",*:*");
-		for(int i=2;i<dealer.getReceivedCards().size();i++)
-		{
-			System.out.print(","+dealer.getReceivedCards().get(i).toString());
-		}
-		System.out
-				.print("]\n1. Double\n2. PASS\n3. More Card\n4. Back\n5. All Players' Information\n6. Current Config\n");
+		displayDealerCard();
+		IO_Interface
+				.ConsoleWriteLine("1. Double\n2. PASS\n3. More Card\n4. Back\n5. All Players' Information\n6. Current Config");
 	}
 
-	//! @Description 展示所有玩家的牌
-	//! @param null
-	//! @return
-	//! throws
-	private void showOtherPlayerInf()
+	private void displayConfig()
+	{
+		IO_Interface.ConsoleWriteLine("Current Config:");
+		IO_Interface.ConsoleWriteLine("CardDeckNumberPerPile: "+Parameters.getCardDeckNumberPerPile());
+		IO_Interface.ConsoleWriteLine("PlayerNumber: "+Parameters.getPlayerNumber());
+		IO_Interface.ConsoleWriteLine("MaxCardNumber: "+Parameters.getMaxCardNumber());
+		IO_Interface.ConsoleWriteLine("TargetPoint: "+Parameters.getTargetPoint());
+		IO_Interface.ConsoleWriteLine("DealerPointInferiorLimit: "+Parameters.getDealerPointInferiorLimit());
+		IO_Interface.ConsoleWriteLine("BonusRatio: "+Parameters.getBonusRatio());
+		IO_Interface.ConsoleWriteLine("PlayerInitialMoney: "+Parameters.getPlayerInitialMoney());
+		IO_Interface.ConsoleWriteLine("");
+	}
+
+
+	private void displayPlayerCard(Player player,String name)
+	{
+		IO_Interface.ConsoleWrite(name+" have(has) these cards: [");
+		for(Card card: player.getHand().getReceivedCards())
+		{
+			IO_Interface.ConsoleWrite(card.toString()+",");
+		}
+		IO_Interface.ConsoleWriteLine("]("+player.getHand().getCardValueSum()+")");
+	}
+
+	private void displayDealerCard()
+	{
+		IO_Interface.ConsoleWrite("Dealer has these cards :[");
+		IO_Interface.ConsoleWrite(dealer.getHand().getReceivedCards().get(0).toString());
+		if(dealer.getHand().getReceivedCards().size()>1)
+			IO_Interface.ConsoleWrite(",*:*");
+		for(int i=2;i<dealer.getHand().getReceivedCards().size();i++)
+		{
+			IO_Interface.ConsoleWrite(","+dealer.getHand().getReceivedCards().get(i).toString());
+		}
+		IO_Interface.ConsoleWrite("]\n");
+	}
+
+	private void displayAllPlayerCard(boolean showDealerSecretCard)
 	{
 		for(Player r: playerList)
 		{
 			displayPlayerCard(r,"Player "+r.getIndex());
 		}
-	}
-
-	//! @Description 判断当前玩家的输赢情况
-	//! @param null
-	//! @return
-	//! throws
-	private boolean Settle(Player player)
-	{
-		int currentResult=player.getCardValueSum();
-		if(currentResult>Parameters.getTargetPoint())
+		if(showDealerSecretCard)
 		{
-			System.out.print(player.getIndex()+" Lose.\n");
-			player.setLose(true);
-			return false;
-		}
-		return true;
-	}
-
-	//! @Description 发牌
-	//! @param null
-	//! @return
-	//! throws
-	private boolean Deal(Player player)
-	{
-		if(player.getCardNumber()<Parameters.getMaxCardNumber())
-		{
-			player.receiveCard(pile.DealCard());
-			return true;
+			displayPlayerCard(dealer,"Dealer");
 		}
 		else
 		{
-			System.out.print("Can not get more card. Please show the card you have.\n");
-			return false;
+			displayDealerCard();
 		}
 	}
 
-	private int readNumber()
+	public int getCurrentPlayerNumber()
+	{
+		return playerList.size();
+	}
+
+	private boolean gainMoreCard(Player player)
+	{
+		if(player.getHand().receiveCard(pile.DealCard())&&(!player.getHand().settle()))
+		{
+			IO_Interface.ConsoleWriteLine("Player "+player.getIndex()+" Lose.");
+			player.setLose(true);
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+
+	//加倍赌注并摸牌
+	private void doubleBet(Player player)
 	{
 		try
 		{
-			int result=0;
-			Scanner sc=new Scanner(System.in);
-			String input=sc.nextLine();
-			result=Integer.parseInt(input);
-			return result;
+			player.getCash().DoubleBet();
+			gainMoreCard(player);
 		}
-		catch(NumberFormatException e)
+		catch(IllegalArgumentException e)
 		{
-			System.out.print("Please enter a vaild number.\n");
-			return readNumber();
 		}
-
 	}
 
-	//! @Description 玩家操作的界面
-	//! @param null
-	//! @return
-	//! throws
-	private void PlayerProcess(Player player)
+
+	private boolean playerProcess(Player player)
 	{
+		//Natural Black Jack判断
+		if(player.getHand().getCardValueSum()==Parameters.getTargetPoint())
+		{
+			naturalBlackJackList.add(player);
+			IO_Interface.ConsoleWriteLine("Bingo! You have natural Black Jack!");
+			return true;
+		}
 		for(;;)
 		{
 			displayInstruction(player);
-			int option=readNumber();
+			int option=IO_Interface.ReadInteger();
 			switch(option)
 			{
 				case 1:
 				{
-					player.setCurrentMoney(player.getCurrentMoney()-player.getBet());
-					player.setBet(player.getBet()*2);
-					break;
+					doubleBet(player);
+					return true;
 				}
 				case 2:
 				{
-					return;
+					return true;
 				}
 				case 3:
 				{
-					if(Deal(player))
+					if(gainMoreCard(player))
 					{
-						if(!Settle(player))
-						{
-							player.setLose(true);
-							return;
-						}
+						break;
 					}
-					break;
+					else
+					{
+						return true;
+					}
 				}
 				case 4:
 				{
 					player.setLose(true);
-					return;
+					return false;
 				}
 				case 5:
 				{
-					showOtherPlayerInf();
+					displayAllPlayerCard(false);
 					break;
 				}
 				case 6:
@@ -184,52 +195,36 @@ public class Game
 				}
 				default:
 				{
-					System.out.print("Please enter valid option.\n");
+					IO_Interface.ConsoleWriteLine("Please enter valid option.");
 					break;
 				}
 			}
 		}
 	}
 
-	private void displayConfig()
+	//此处为Dealer获得牌直到上限17
+	private void dealerProcess()
 	{
-		System.out.println("Current Config:");
-		System.out.println("CardDeckNumberPerPile: "+Parameters.getCardDeckNumberPerPile());
-		System.out.println("PlayerNumber: "+Parameters.getPlayerNumber());
-		System.out.println("MaxCardNumber: "+Parameters.getMaxCardNumber());
-		System.out.println("TargetPoint: "+Parameters.getTargetPoint());
-		System.out.println("DealerPointInferiorLimit: "+Parameters.getDealerPointInferiorLimit());
-		System.out.println("BonusRatio: "+Parameters.getBonusRatio());
-		System.out.println("PlayerInitialMoney: "+Parameters.getPlayerInitialMoney());
-		System.out.println();
-	}
-
-
-	private void DealerProcess()
-	{
-		for(;dealer.getCardValueSum()<Parameters.getDealerPointInferiorLimit();)
+		for(;dealer.getHand().getCardValueSum()<Parameters.getDealerPointInferiorLimit();)
 		{
-			dealer.receiveCard(pile.DealCard());
+			dealer.getHand().receiveCard(pile.DealCard());
 		}
 	}
 
-	private void displayPlayerCard(Player player,String name)
+	private void setWin(Player player)
 	{
-		System.out.print(name+" has these cards: [");
-		for(Card card: player.getReceivedCards())
-		{
-			System.out.print(card.toString()+",");
-		}
-		System.out.print("]("+player.getCardValueSum()+")\n");
+		player.getCash().AddBonusToMoney();
+		IO_Interface.ConsoleWriteLine("Player "+player.getIndex()+" Wins.\n");
 	}
+
 
 	private void judge()
 	{
-		int dealerResult=dealer.getCardValueSum();
-		int maxValue=0, maxIndex=-1, notLoseNumber=0;
+		int dealerResult=dealer.getHand().getCardValueSum();
+		int maxValue=0, notLoseNumber=0;
 		for(Player player: playerList)
 		{
-			if(player.getCardValueSum()>Parameters.getTargetPoint())
+			if(player.getHand().getCardValueSum()>Parameters.getTargetPoint())
 			{
 				player.setLose(true);
 				continue;
@@ -238,84 +233,86 @@ public class Game
 			{
 				notLoseNumber++;
 			}
-			if(player.getCardValueSum()>maxValue)
+			if(player.getHand().getCardValueSum()>maxValue)
 			{
-				maxIndex=player.getIndex();
-				maxValue=player.getCardValueSum();
+				maxValue=player.getHand().getCardValueSum();
 			}
 		}
 		if(notLoseNumber>0)
 		{
-			if(dealerResult>Parameters.getTargetPoint())
+			if(dealerResult>Parameters.getTargetPoint())//Dealer超过界限
 			{
 				for(Player player: playerList)
 				{
 					if(!player.isLose())
 					{
-						player.setCurrentMoney(player.getCurrentMoney()+player.getBet()*Parameters.getBonusRatio());
-						System.out.print("Player "+player.getIndex()+" Wins.\n");
+						setWin(player);
 					}
+				}
+			}
+			else if(maxValue>dealerResult)
+			{
+				for(Player player: playerList)
+				{
+					if(player.getHand().getCardValueSum()==maxValue)
+					{
+						setWin(player);
+					}
+				}
+			}
+			else if(dealerResult==Parameters.getTargetPoint()&&dealer.getHand()
+					.getCardNumber()>2)//Dealer不是Natural Black Jack
+			{
+				for(Player player: naturalBlackJackList)
+				{
+					setWin(player);
 				}
 			}
 			else
 			{
-				if(maxValue>dealerResult)
-				{
-					for(Player player: playerList)
-					{
-						if(player.getIndex()==maxIndex)
-						{
-							player.setCurrentMoney(player.getCurrentMoney()+player.getBet()*Parameters.getBonusRatio());
-							System.out.print("Player "+player.getIndex()+" Wins.\n");
-						}
-					}
-				}
-				else
-				{
-					System.out.print("Dealer Wins.\n");
-				}
+				IO_Interface.ConsoleWriteLine("Dealer Wins.\n");
 			}
 		}
 		else
 		{
-			System.out.print("Dealer Wins.\n");
+			IO_Interface.ConsoleWriteLine("Dealer Wins.\n");
 		}
 	}
 
-	//! @Description 总体流程
-	//! @param null
-	//! @return
-	//! throws
 	public void MainProcess()
 	{
-
 		for(Player player: playerList)
 		{
 			if(player.isLose())
 			{
 				continue;
 			}
-			System.out.print("Player "+player.getIndex()+"'s turn.\n");
-			System.out.print("Enter money:\n");
-			int money=readNumber();
+			IO_Interface.ConsoleWriteLine("Player "+player.getIndex()+"'s turn.");
+			IO_Interface.ConsoleWriteLine("You have :"+player.getCash().getCurrentMoney());
+			IO_Interface.ConsoleWriteLine("Enter bet:");
+			int bet=IO_Interface.ReadInteger();
+			try
+			{
+				player.getCash().Bet(bet);
+			}
+			catch(IllegalArgumentException e)
+			{
+				IO_Interface.ConsoleWriteLine("Enter bet:");
+				bet=IO_Interface.ReadInteger();
+				player.getCash().Bet(bet);
+			}
 
-			player.setCurrentMoney(player.getCurrentMoney()-money);
-			player.setBet(money);
-			PlayerProcess(player);
+			boolean isInNewGame=playerProcess(player);
+			if(!isInNewGame)
+			{
+				playerList.remove(player);
+			}
 		}
-
-		DealerProcess();
-		displayPlayerCard(dealer,"Dealer");
+		dealerProcess();
+		displayAllPlayerCard(true);
 		judge();
-
-		//最后显示所有人的牌
-		for(Player r: playerList)
-		{
-			displayPlayerCard(r,"Player "+r.getIndex());
-		}
-		displayPlayerCard(dealer,"Dealer");
-
 	}
+
 
 }
 

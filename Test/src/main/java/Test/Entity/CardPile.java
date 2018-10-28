@@ -21,10 +21,7 @@ public class CardPile
 		Collections.shuffle(pile,new Random(new Date().getTime()));
 	}
 
-	//! @Description 初始化牌堆
-	//! @param null
-	//! @return
-	//! throws
+
 	private void Shuffle()
 	{
 		pile.clear();
@@ -35,10 +32,7 @@ public class CardPile
 		Collections.shuffle(pile,new Random(new Date().getTime()));
 	}
 
-	//! @Description 从当前牌堆顶部发出一张牌
-	//! @param null
-	//! @return 移交的牌
-	//! throws
+
 	Card DealCard()
 	{
 		if(!pile.isEmpty())
@@ -50,10 +44,7 @@ public class CardPile
 		}
 	}
 
-	//! @Description 新一轮游戏开始时判断是否需要洗牌，即牌堆初始化
-	//! @param null
-	//! @return
-	//! throws
+
 	void onStartNewGame()
 	{
 		if(pile.size()<inferiorLimit)
