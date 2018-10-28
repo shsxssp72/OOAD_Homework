@@ -10,7 +10,7 @@ public class CardPile
 	private ArrayList<Card> pile;
 	private static int inferiorLimit=Parameters.getCardDeckNumberPerPile()*Parameters.getCardNumPerDeck()/2;
 
-	public CardPile()
+	CardPile()
 	{
 		pile=new ArrayList<>();
 		for(int i=0;i<Parameters.getCardDeckNumberPerPile();i++)

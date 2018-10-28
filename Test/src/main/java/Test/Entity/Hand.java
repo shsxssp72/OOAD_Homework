@@ -4,7 +4,7 @@ import Test.Utility.IO_Interface;
 
 import java.util.ArrayList;
 
-public class Hand
+class Hand
 {
 	private ArrayList<Card> receivedCards;
 
@@ -16,22 +16,22 @@ public class Hand
 		this.receivedCards=new ArrayList<>();
 	}
 
-	public void Clear()
+	void Clear()
 	{
 		receivedCards.clear();
 	}
 
-	public ArrayList<Card> getReceivedCards()
+	ArrayList<Card> getReceivedCards()
 	{
 		return receivedCards;
 	}
 
-	public int getCardNumber()
+	int getCardNumber()
 	{
 		return this.receivedCards.size();
 	}
 
-	public boolean receiveCard(Card input)
+	boolean receiveCard(Card input)
 	{
 		if(this.getCardNumber()<Parameters.getMaxCardNumber())
 		{
@@ -45,7 +45,7 @@ public class Hand
 		}
 	}
 
-	public int getCardValueSum()
+	int getCardValueSum()
 	{
 		int result=0;
 		for(Card r: receivedCards)
@@ -66,11 +66,10 @@ public class Hand
 	}
 
 	//Player摸牌后判定是否超过界限
-	public boolean settle()
+	boolean settle()
 	{
 		int currentResult=getCardValueSum();
 		return currentResult<=Parameters.getTargetPoint();
 	}
-
 
 }

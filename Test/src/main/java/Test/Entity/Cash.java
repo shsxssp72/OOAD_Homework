@@ -13,37 +13,37 @@ public class Cash
 		this.currentMoney=100;
 	}
 
-	public void Clear()
+	void Clear()
 	{
 		bet=0;
 	}
 
-	public double getBet()
+	double getBet()
 	{
 		return bet;
 	}
 
-	public void setBet(double bet)
+	void setBet(double bet)
 	{
 		this.bet=bet;
 	}
 
-	public double getCurrentMoney()
+	double getCurrentMoney()
 	{
 		return currentMoney;
 	}
 
-	public void setCurrentMoney(double currentMoney)
+	void setCurrentMoney(double currentMoney)
 	{
 		this.currentMoney=currentMoney;
 	}
 
-	public void AddBonusToMoney()
+	void AddBonusToMoney()
 	{
 		currentMoney+=bet*Parameters.getBonusRatio();
 	}
 
-	public void DoubleBet()
+	void DoubleBet()
 	{
 		if(bet>currentMoney)
 		{
@@ -54,7 +54,7 @@ public class Cash
 		bet*=2;
 	}
 
-	public void Bet(double inBet)
+	void Bet(double inBet)
 	{
 		if(inBet>currentMoney)
 		{

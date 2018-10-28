@@ -9,7 +9,7 @@ public class Game
 	private CardPile pile;
 	private Player dealer;
 	private LinkedList<Player> playerList;
-	ArrayList<Player> naturalBlackJackList;
+	private ArrayList<Player> naturalBlackJackList;
 
 	public Game()
 	{

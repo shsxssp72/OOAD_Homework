@@ -9,7 +9,7 @@ public class Player
 	private Cash cash;
 	private static int localIndex=0;
 
-	public Player()
+	Player()
 	{
 		this.index=localIndex;
 		localIndex++;
@@ -19,49 +19,49 @@ public class Player
 	}
 
 	//	only clears some info since Clear() is used at the start of every game
-	public void Clear()
+	void Clear()
 	{
 		lose=false;
 		hand.Clear();
 		cash.Clear();
 	}
 
-	public int getIndex()
+	int getIndex()
 	{
 		return index;
 	}
 
-	public void setIndex(int index)
+	void setIndex(int index)
 	{
 		this.index=index;
 	}
 
-	public boolean isLose()
+	boolean isLose()
 	{
 		return lose;
 	}
 
-	public void setLose(boolean lose)
+	void setLose(boolean lose)
 	{
 		this.lose=lose;
 	}
 
-	public Hand getHand()
+	Hand getHand()
 	{
 		return hand;
 	}
 
-	public void setHand(Hand hand)
+	void setHand(Hand hand)
 	{
 		this.hand=hand;
 	}
 
-	public Cash getCash()
+	Cash getCash()
 	{
 		return cash;
 	}
 
-	public void setCash(Cash cash)
+	void setCash(Cash cash)
 	{
 		this.cash=cash;
 	}

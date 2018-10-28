@@ -7,7 +7,7 @@ public class Card
 		Club,Diamond,Heart,Spade
 	}
 
-	public Card(CardPatternType pattern,int figure,int faceValue,int parentIndex)
+	Card(CardPatternType pattern,int figure,int faceValue,int parentIndex)
 	{
 		this.pattern=pattern;
 		this.figure=figure;
@@ -15,17 +15,17 @@ public class Card
 		this.parentIndex=parentIndex;
 	}
 
-	public CardPatternType getPattern()
+	CardPatternType getPattern()
 	{
 		return pattern;
 	}
 
-	public int getFigure()
+	int getFigure()
 	{
 		return figure;
 	}
 
-	public int getFaceValue()
+	int getFaceValue()
 	{
 		return faceValue;
 	}
