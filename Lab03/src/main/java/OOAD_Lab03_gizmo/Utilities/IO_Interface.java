@@ -1,4 +1,4 @@
-package Test.Utility;
+package OOAD_Lab03_gizmo.Utilities;
 
 import java.util.Scanner;
 
