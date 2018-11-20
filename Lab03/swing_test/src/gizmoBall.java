@@ -12,4 +12,5 @@ public class gizmoBall {
 
 	private JPanel panel1;
 	private JButton OKButton;
+	private JButton stopButton;
 }
