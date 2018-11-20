@@ -70,7 +70,6 @@ public class Game
 		IO_Interface.ConsoleWriteLine("");
 	}
 
-
 	private void displayPlayerCard(Player player,String name)
 	{
 		IO_Interface.ConsoleWrite(name+" have(has) these cards: [");
@@ -149,6 +148,7 @@ public class Game
 		if(player.getHand().getCardValueSum()==Parameters.getTargetPoint())
 		{
 			naturalBlackJackList.add(player);
+			displayPlayerCard(player,"You");
 			IO_Interface.ConsoleWriteLine("Bingo! You have natural Black Jack!");
 			return true;
 		}
