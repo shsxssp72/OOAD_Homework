@@ -1,4 +1,4 @@
-package OOAD_Lab03_gizmo.Utilities;
+package Test.Utility;
 
 import java.util.Scanner;
 
@@ -23,17 +23,11 @@ public class IO_Interface
 
 	public static void ConsoleWriteLine(String input)
 	{
-		//Temp, can be redirected.
 		System.out.println(input);
 	}
 
 	public static void ConsoleWrite(String input)
 	{
 		System.out.print(input);
-	}
-
-	public static void DebugWriteLine(String input)
-	{
-		System.out.println("DEBUG:	"+input);
 	}
 }

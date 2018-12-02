@@ -1,8 +1,10 @@
 package OOAD_Lab03_gizmo.Model.Widget;
 
 import OOAD_Lab03_gizmo.Utilities.IO_Interface;
-import OOAD_Lab03_gizmo.physics.Circle;
-import OOAD_Lab03_gizmo.physics.LineSegment;
+import OOAD_Lab03_gizmo.Utilities.Observer;
+import physics.Circle;
+import physics.LineSegment;
+import physics.Vect;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -17,8 +19,14 @@ public class CircleWidget implements GizmoWidget
 	private double xpos=0;
 	private double ypos=0;
 	private double width=1;
-	private int rotateTime=0;
 	private Color color=Color.gray;
+	private final List<Observer> observerList=new ArrayList<>();
+
+	@Override
+	public String getType()
+	{
+		return "CircleWidget";
+	}
 
 	public CircleWidget(String name,double xpos,double ypos)
 	{
@@ -32,7 +40,7 @@ public class CircleWidget implements GizmoWidget
 	void InitCircles()
 	{
 		vertices.clear();
-		vertices.add(new Circle(xpos+0.5,ypos+0.5,width/2));
+		vertices.add(new Circle(xpos+width/2,ypos+width/2,width/2));
 	}
 
 
@@ -89,12 +97,14 @@ public class CircleWidget implements GizmoWidget
 	public void setXpos(double x)
 	{
 		xpos=x;
+		NotifyAll();
 	}
 
 	@Override
 	public void setYpos(double y)
 	{
 		ypos=y;
+		NotifyAll();
 	}
 
 	@Override
@@ -103,4 +113,30 @@ public class CircleWidget implements GizmoWidget
 		name=inName;
 	}
 
+	@Override
+	public BoundingBox getBoundingBox()
+	{
+		return new BoundingBox(xpos,ypos,xpos+width,ypos+width);
+	}
+	public Vect getCenter()
+	{
+		return new Vect(xpos+width/2,ypos+width/2);
+	}
+
+	@Override
+	public int getRotateTime()
+	{
+		return 0;
+	}
+	@Override
+	public List<Observer> getObserverList()
+	{
+		return observerList;
+	}
+
+	@Override
+	public void trigger(boolean keyPressed,boolean keyReleased)
+	{
+
+	}
 }

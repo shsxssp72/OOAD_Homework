@@ -1,51 +1,53 @@
 package OOAD_Lab03_gizmo.Model.Widget;
 
+import OOAD_Lab03_gizmo.Config.Constants;
 import OOAD_Lab03_gizmo.Utilities.IO_Interface;
 import OOAD_Lab03_gizmo.Utilities.Observer;
 import physics.Circle;
 import physics.LineSegment;
+import physics.Vect;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SquareWidget implements GizmoWidget
+import static OOAD_Lab03_gizmo.Config.Constants.WIDGET_LENGTH;
+
+
+public class AbsorberWidget implements GizmoWidget
 {
-	private ArrayList<LineSegment> edges= new ArrayList<>();
-	private ArrayList<Circle> vertices= new ArrayList<>();
-	private ArrayList<String> connections = new ArrayList<>();
+	private ArrayList<LineSegment> edges=new ArrayList<>();
+	private ArrayList<Circle> vertices=new ArrayList<>();
+	private ArrayList<String> connections=new ArrayList<>();
 	private String name="";
 	private double xpos=0;
 	private double ypos=0;
-	private double width=1;
-	private Color color=Color.cyan;
+	private double width=WIDGET_LENGTH;
+	private Color color=Color.magenta;
 	private final List<Observer> observerList=new ArrayList<>();
 
 	@Override
 	public String getType()
 	{
-		return "SquareWidget";
+		return "AbsorberWidget";
 	}
-	public SquareWidget(String name,double xpos,double ypos)
+
+	public AbsorberWidget(String name,double xpos,double ypos)
 	{
 		this.name=name;
 		this.xpos=xpos;
 		this.ypos=ypos;
-		InitCircles();
-		InitLines();
 	}
 
 	private void InitCircles()
 	{
-		InitSquareVertices(vertices,xpos,ypos,width);
+		SquareWidget.InitSquareVertices(vertices,xpos,ypos,width);
 	}
-
 
 	private void InitLines()
 	{
-		InitSquareEdges(edges,xpos,ypos,width);
+		SquareWidget.InitSquareEdges(edges,xpos,ypos,width);
 	}
-
 
 	@Override
 	public String getName()
@@ -77,11 +79,10 @@ public class SquareWidget implements GizmoWidget
 		return vertices;
 	}
 
-
 	@Override
 	public void rotate()
 	{
-		IO_Interface.ConsoleWriteLine("squares do not need to rotate.");
+		IO_Interface.ConsoleWriteLine("absorbers do not need to rotate.");
 	}
 
 	@Override
@@ -111,12 +112,6 @@ public class SquareWidget implements GizmoWidget
 	}
 
 	@Override
-	public void trigger(boolean keyPressed,boolean keyReleased)
-	{
-
-	}
-
-	@Override
 	public void setName(String inName)
 	{
 		name=inName;
@@ -139,20 +134,7 @@ public class SquareWidget implements GizmoWidget
 	{
 		return observerList;
 	}
-	static void InitSquareEdges(ArrayList<LineSegment> edges,double xpos,double ypos,double width)
-	{
-		edges.clear();
-		edges.add(new LineSegment(xpos,ypos,xpos,ypos+width));//Left
-		edges.add(new LineSegment(xpos+width,ypos,xpos+width,ypos+width));//Right
-		edges.add(new LineSegment(xpos,ypos+width,xpos+width,ypos+width));//Top
-		edges.add(new LineSegment(xpos,ypos,xpos+width,ypos));//Bottom
-	}
-	static void InitSquareVertices(ArrayList<Circle> vertices,double xpos,double ypos,double width)
-	{
-		vertices.clear();
-		vertices.add(new Circle(xpos,ypos+width,0));//TopLeft
-		vertices.add(new Circle(xpos+width,ypos+width,0));//TopRight
-		vertices.add(new Circle(xpos,ypos,0));//BottomLeft
-		vertices.add(new Circle(xpos+width,ypos,0));//BottomRight
-	}
+
+
 }
+

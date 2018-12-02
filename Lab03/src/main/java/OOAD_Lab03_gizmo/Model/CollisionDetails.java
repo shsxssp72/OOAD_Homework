@@ -1,6 +1,6 @@
 package OOAD_Lab03_gizmo.Model;
 
-import OOAD_Lab03_gizmo.physics.Vect;
+import physics.Vect;
 
 public class CollisionDetails
 {

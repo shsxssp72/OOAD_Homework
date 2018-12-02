@@ -1,7 +1,7 @@
 package OOAD_Lab03_gizmo.Model;
 
-import OOAD_Lab03_gizmo.physics.Circle;
-import OOAD_Lab03_gizmo.physics.LineSegment;
+import physics.Circle;
+import physics.LineSegment;
 
 import java.util.List;
 
@@ -22,4 +22,6 @@ public interface Displayable
 	void setYpos(double y);
 
 	void setName(String inName);
+
+	String getType();
 }

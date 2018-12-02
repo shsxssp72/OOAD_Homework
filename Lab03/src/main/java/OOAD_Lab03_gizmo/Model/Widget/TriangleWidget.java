@@ -1,7 +1,8 @@
 package OOAD_Lab03_gizmo.Model.Widget;
 
-import OOAD_Lab03_gizmo.physics.Circle;
-import OOAD_Lab03_gizmo.physics.LineSegment;
+import OOAD_Lab03_gizmo.Utilities.Observer;
+import physics.Circle;
+import physics.LineSegment;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -18,7 +19,13 @@ public class TriangleWidget implements GizmoWidget
 	private double width=1;
 	private int rotateTime=0;
 	private Color color=Color.green;
+	private final List<Observer> observerList=new ArrayList<>();
 
+	@Override
+	public String getType()
+	{
+		return "TriangleWidget";
+	}
 
 	public TriangleWidget(String name,double xpos,double ypos)
 	{
@@ -121,13 +128,9 @@ public class TriangleWidget implements GizmoWidget
 			}
 			case 3:
 			{
-				edges.add(new LineSegment(xpos,ypos,xpos+width,ypos));
-				edges.add(new LineSegment(xpos,ypos,xpos,ypos+width));
-				edges.add(new LineSegment(xpos+width,ypos,xpos,ypos+width));
-
-				vertices.add(new Circle(xpos,ypos,0));
-				vertices.add(new Circle(xpos+width,ypos,0));
-				vertices.add(new Circle(xpos,ypos+width,0));
+				InitCircles();
+				InitLines();
+				rotateTime=0;
 				break;
 			}
 			default:
@@ -154,17 +157,42 @@ public class TriangleWidget implements GizmoWidget
 	public void setXpos(double x)
 	{
 		xpos=x;
+		NotifyAll();
 	}
 
 	@Override
 	public void setYpos(double y)
 	{
 		ypos=y;
+		NotifyAll();
 	}
 
 	@Override
 	public void setName(String inName)
 	{
 		name=inName;
+	}
+
+	@Override
+	public BoundingBox getBoundingBox()
+	{
+		return new BoundingBox(xpos,ypos,xpos+width,ypos+width);
+	}
+
+	@Override
+	public int getRotateTime()
+	{
+		return rotateTime;
+	}
+	@Override
+	public List<Observer> getObserverList()
+	{
+		return observerList;
+	}
+
+	@Override
+	public void trigger(boolean keyPressed,boolean keyReleased)
+	{
+
 	}
 }
