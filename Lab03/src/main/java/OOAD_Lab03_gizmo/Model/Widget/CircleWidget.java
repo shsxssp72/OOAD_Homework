@@ -21,6 +21,8 @@ public class CircleWidget implements GizmoWidget
 	private double width=1;
 	private Color color=Color.gray;
 	private final List<Observer> observerList=new ArrayList<>();
+	private boolean triggered=false;
+
 
 	@Override
 	public String getType()
@@ -138,5 +140,10 @@ public class CircleWidget implements GizmoWidget
 	public void trigger(boolean keyPressed,boolean keyReleased)
 	{
 
-	}
+	}@Override
+public boolean isTriggered()
+{
+	return triggered;
+}
+
 }

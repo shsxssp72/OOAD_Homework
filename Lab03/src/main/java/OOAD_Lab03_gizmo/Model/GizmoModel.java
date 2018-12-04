@@ -43,6 +43,7 @@ public class GizmoModel
 	}
 
 
+
 	public void runBalls()
 	{
 		collisionEngine.collide(SECOND_PER_FRAME);
@@ -52,25 +53,25 @@ public class GizmoModel
 	public boolean addWidget(double xpos,double ypos,String type)
 	{
 		GizmoWidget widget=null;
-		if(type.equals("CircleWidget"))
+		if(type.equals("Circle"))
 		{
 			widget=new CircleWidget("C"+widgetCount,xpos,ypos);
 		}
-		else if(type.equals("SquareWidget"))
+		else if(type.equals("Square"))
 		{
 			widget=new SquareWidget("S"+widgetCount,xpos,ypos);
 		}
-		else if(type.equals("TriangleWidget"))
+		else if(type.equals("Triangle"))
 		{
 			widget=new TriangleWidget("T"+widgetCount,xpos,ypos);
 		}
-		else if(type.equals("FlipperWidget"))
+		else if(type.equals("Flipper"))
 		{
-
+			widget=new FlipperWidget(xpos,ypos,0,"F"+widget);
 		}
-		else if(type.equals("AbsorberWidget"))
+		else if(type.equals("Absorber"))
 		{
-
+			widget=new AbsorberWidget("A"+widgetCount,xpos,ypos);
 		}
 		else //不匹配处理
 		{
@@ -209,6 +210,29 @@ public class GizmoModel
 		{
 			if(ball.getXpos()==xpos&&ball.getYpos()==ypos)
 				return ball;
+		}
+		return null;
+	}
+
+	public GizmoWidget getWidgetByName(String name)
+	{
+		for(GizmoWidget widget: getWidgetList())
+		{
+			if(widget.getName().equals(name))
+			{
+				return widget;
+			}
+		}
+		return null;
+	}
+	public Ball getBallByName(String name)
+	{
+		for(Ball ball: getBallList())
+		{
+			if(ball.getName().equals(name))
+			{
+				return ball;
+			}
 		}
 		return null;
 	}

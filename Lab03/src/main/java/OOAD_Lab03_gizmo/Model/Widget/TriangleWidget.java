@@ -20,6 +20,8 @@ public class TriangleWidget implements GizmoWidget
 	private int rotateTime=0;
 	private Color color=Color.green;
 	private final List<Observer> observerList=new ArrayList<>();
+	private boolean triggered=false;
+
 
 	@Override
 	public String getType()
@@ -194,5 +196,10 @@ public class TriangleWidget implements GizmoWidget
 	public void trigger(boolean keyPressed,boolean keyReleased)
 	{
 
+	}
+	@Override
+	public boolean isTriggered()
+	{
+		return triggered;
 	}
 }

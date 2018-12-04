@@ -32,6 +32,7 @@ public class FlipperWidget implements GizmoWidget
 	private boolean keyPressed;
 	private boolean keyReleased;
 	private final List<Observer> observerList=new ArrayList<>();
+	private boolean triggered=false;
 
 
 	public FlipperWidget(double xpos,double ypos,double angle,String name)
@@ -143,6 +144,7 @@ public class FlipperWidget implements GizmoWidget
 		return oldAngle;
 	}
 
+	@Override
 	public boolean getKeyPressed()
 	{
 		return keyPressed;
@@ -303,5 +305,11 @@ public class FlipperWidget implements GizmoWidget
 	public Vect getCenter()
 	{
 		return pivot;
+	}
+
+	@Override
+	public boolean isTriggered()
+	{
+		return triggered;
 	}
 }

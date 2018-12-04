@@ -21,4 +21,11 @@ public interface GizmoWidget extends Displayable, Observable
 
 	void trigger(boolean keyPressed,boolean keyReleased);
 
+	default boolean getKeyPressed()
+	{
+		return false;
+	}
+
+	boolean isTriggered();
+
 }

@@ -20,6 +20,7 @@ public class SquareWidget implements GizmoWidget
 	private double width=1;
 	private Color color=Color.cyan;
 	private final List<Observer> observerList=new ArrayList<>();
+	private boolean triggered=false;
 
 	@Override
 	public String getType()
@@ -154,5 +155,10 @@ public class SquareWidget implements GizmoWidget
 		vertices.add(new Circle(xpos+width,ypos+width,0));//TopRight
 		vertices.add(new Circle(xpos,ypos,0));//BottomLeft
 		vertices.add(new Circle(xpos+width,ypos,0));//BottomRight
+	}
+	@Override
+	public boolean isTriggered()
+	{
+		return triggered;
 	}
 }

@@ -25,6 +25,8 @@ public class AbsorberWidget implements GizmoWidget
 	private double width=WIDGET_LENGTH;
 	private Color color=Color.magenta;
 	private final List<Observer> observerList=new ArrayList<>();
+	private final boolean triggered=false;
+
 
 	@Override
 	public String getType()
@@ -135,6 +137,16 @@ public class AbsorberWidget implements GizmoWidget
 		return observerList;
 	}
 
+	@Override
+	public void trigger(boolean keyPressed,boolean keyReleased)
+	{
 
+	}
+
+	@Override
+	public boolean isTriggered()
+	{
+		return triggered;
+	}
 }
 
