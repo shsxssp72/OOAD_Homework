@@ -13,8 +13,6 @@ public interface GizmoWidget extends Displayable, Observable
 
 	List<String> getConnection();
 
-	Color getColor();
-
 	BoundingBox getBoundingBox();
 
 	int getRotateTime();
@@ -27,5 +25,7 @@ public interface GizmoWidget extends Displayable, Observable
 	}
 
 	boolean isTriggered();
+
+	void activateAction();
 
 }

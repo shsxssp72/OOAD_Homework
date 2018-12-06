@@ -2,6 +2,7 @@ package OOAD_Lab03_gizmo.Model;
 
 import OOAD_Lab03_gizmo.Model.Widget.*;
 import OOAD_Lab03_gizmo.Utilities.Logger;
+import OOAD_Lab03_gizmo.Utilities.TriggerConnector;
 import physics.Geometry;
 import physics.Vect;
 
@@ -41,12 +42,18 @@ public class GizmoModel
 		collisionEngine.setFrictionFactor(inFrictionFactor);
 		collisionEngine.setFrictionFactor2(inFrictionFactor2);
 	}
-
-
+	private void activateWidgetActions()
+	{
+		for(GizmoWidget widget: getWidgetList())
+		{
+			widget.activateAction();
+		}
+	}
 
 	public void runBalls()
 	{
 		collisionEngine.collide(SECOND_PER_FRAME);
+		activateWidgetActions();
 	}
 
 	//TODO 对于所有Displayable添加观察者
@@ -67,7 +74,7 @@ public class GizmoModel
 		}
 		else if(type.equals("Flipper"))
 		{
-			widget=new FlipperWidget(xpos,ypos,0,"F"+widget);
+			widget=new FlipperWidget(xpos,ypos,0,"F"+widgetCount);
 		}
 		else if(type.equals("Absorber"))
 		{
@@ -225,6 +232,7 @@ public class GizmoModel
 		}
 		return null;
 	}
+
 	public Ball getBallByName(String name)
 	{
 		for(Ball ball: getBallList())
@@ -266,7 +274,6 @@ public class GizmoModel
 				}
 			}
 		}
-
 		return false;
 	}
 
@@ -343,4 +350,21 @@ public class GizmoModel
 	{
 		return collisionEngine.getWidgetList();
 	}
+
+	private void sendTriggers()
+	{
+		for(Ball ball: getBallList())
+		{
+			Displayable collidedBoardObject=collisionEngine.getCollisionDetailByBall(ball).getCollidedBoardObject();
+			if(collidedBoardObject!=null&&!collidedBoardObject.getType().equals("Wall")&&!collidedBoardObject.getType()
+					.equals("Ball"))
+			{
+				for(GizmoWidget widget: TriggerConnector.getTriggeredGizmos((GizmoWidget)collidedBoardObject))
+				{    //TODO: change to include walls
+					widget.trigger(false,true);
+				}
+			}
+		}
+	}
+
 }

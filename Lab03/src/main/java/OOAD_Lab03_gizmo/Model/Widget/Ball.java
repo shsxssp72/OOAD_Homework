@@ -18,7 +18,6 @@ public class Ball implements Displayable, Observable
 	private double xpos;
 	private double ypos;
 	private double width=0.5;
-	private Color color=Color.gray;
 	boolean remove=false;
 	private Vect velocity;
 	private final List<Observer> observerList=new ArrayList<>();
@@ -49,11 +48,6 @@ public class Ball implements Displayable, Observable
 	public double getWidth()
 	{
 		return width;
-	}
-
-	public Color getColor()
-	{
-		return color;
 	}
 
 	public boolean isRemove()

@@ -18,7 +18,6 @@ public class TriangleWidget implements GizmoWidget
 	private double ypos=0;
 	private double width=1;
 	private int rotateTime=0;
-	private Color color=Color.green;
 	private final List<Observer> observerList=new ArrayList<>();
 	private boolean triggered=false;
 
@@ -149,11 +148,6 @@ public class TriangleWidget implements GizmoWidget
 		return connections;
 	}
 
-	@Override
-	public Color getColor()
-	{
-		return color;
-	}
 
 	@Override
 	public void setXpos(double x)
@@ -202,4 +196,11 @@ public class TriangleWidget implements GizmoWidget
 	{
 		return triggered;
 	}
+	@Override
+	public void activateAction()
+	{
+		notifyAll();
+
+	}
+
 }

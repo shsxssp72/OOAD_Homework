@@ -19,7 +19,6 @@ public class CircleWidget implements GizmoWidget
 	private double xpos=0;
 	private double ypos=0;
 	private double width=1;
-	private Color color=Color.gray;
 	private final List<Observer> observerList=new ArrayList<>();
 	private boolean triggered=false;
 
@@ -89,11 +88,6 @@ public class CircleWidget implements GizmoWidget
 		return connections;
 	}
 
-	@Override
-	public Color getColor()
-	{
-		return color;
-	}
 
 	@Override
 	public void setXpos(double x)
@@ -120,6 +114,7 @@ public class CircleWidget implements GizmoWidget
 	{
 		return new BoundingBox(xpos,ypos,xpos+width,ypos+width);
 	}
+
 	public Vect getCenter()
 	{
 		return new Vect(xpos+width/2,ypos+width/2);
@@ -130,6 +125,7 @@ public class CircleWidget implements GizmoWidget
 	{
 		return 0;
 	}
+
 	@Override
 	public List<Observer> getObserverList()
 	{
@@ -140,10 +136,19 @@ public class CircleWidget implements GizmoWidget
 	public void trigger(boolean keyPressed,boolean keyReleased)
 	{
 
-	}@Override
-public boolean isTriggered()
-{
-	return triggered;
-}
+	}
+
+	@Override
+	public boolean isTriggered()
+	{
+		return triggered;
+	}
+
+	@Override
+	public void activateAction()
+	{
+		notifyAll();
+
+	}
 
 }

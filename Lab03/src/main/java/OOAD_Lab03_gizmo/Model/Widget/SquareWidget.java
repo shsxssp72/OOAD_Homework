@@ -18,7 +18,6 @@ public class SquareWidget implements GizmoWidget
 	private double xpos=0;
 	private double ypos=0;
 	private double width=1;
-	private Color color=Color.cyan;
 	private final List<Observer> observerList=new ArrayList<>();
 	private boolean triggered=false;
 
@@ -91,11 +90,6 @@ public class SquareWidget implements GizmoWidget
 		return connections;
 	}
 
-	@Override
-	public Color getColor()
-	{
-		return color;
-	}
 
 	@Override
 	public void setXpos(double x)
@@ -160,5 +154,12 @@ public class SquareWidget implements GizmoWidget
 	public boolean isTriggered()
 	{
 		return triggered;
+	}
+
+	@Override
+	public void activateAction()
+	{
+		notifyAll();
+
 	}
 }

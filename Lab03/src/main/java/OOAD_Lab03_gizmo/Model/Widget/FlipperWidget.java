@@ -22,7 +22,6 @@ public class FlipperWidget implements GizmoWidget
 	private Vect pivot;
 	private double width=WIDGET_LENGTH;
 	private double length=FLIPPER_LENGTH;
-	private Color color=Color.magenta;
 	private int rotateTime=0;
 	private boolean flipUp;
 	private double angle;
@@ -88,12 +87,6 @@ public class FlipperWidget implements GizmoWidget
 	public List<String> getConnection()
 	{
 		return connections;
-	}
-
-	@Override
-	public Color getColor()
-	{
-		return color;
 	}
 
 	@Override
@@ -311,5 +304,11 @@ public class FlipperWidget implements GizmoWidget
 	public boolean isTriggered()
 	{
 		return triggered;
+	}
+
+	@Override
+	public void activateAction()
+	{
+		flip();
 	}
 }
