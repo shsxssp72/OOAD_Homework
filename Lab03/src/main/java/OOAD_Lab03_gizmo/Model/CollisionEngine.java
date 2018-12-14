@@ -2,6 +2,7 @@ package OOAD_Lab03_gizmo.Model;
 
 import OOAD_Lab03_gizmo.Model.Widget.*;
 import OOAD_Lab03_gizmo.Utilities.IO_Interface;
+import OOAD_Lab03_gizmo.config.Constants;
 import physics.Circle;
 import physics.Geometry;
 import physics.LineSegment;
@@ -12,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static OOAD_Lab03_gizmo.Config.Constants.*;
+import static OOAD_Lab03_gizmo.config.Constants.*;
 
 public class CollisionEngine
 {
@@ -116,7 +117,7 @@ public class CollisionEngine
 				collisionTime=time;
 				//注意reflexCoefficient
 				details.setPotentialVelocity(Geometry.reflectWall(lineSegment,ball.getVelocity()));
-				details.setCollidedBoardObject(displayable);
+				details.setPotentialCollision(displayable);
 			}
 		}
 		for(Circle circle: vertices)
@@ -127,7 +128,7 @@ public class CollisionEngine
 				collisionTime=time;
 				details.setPotentialVelocity(Geometry
 						.reflectCircle(circle.getCenter(),ball.getCenter(),ball.getVelocity()));
-				details.setCollidedBoardObject(displayable);
+				details.setPotentialCollision(displayable);
 			}
 		}
 		details.setTimeBeforeCollision(collisionTime);
@@ -274,9 +275,11 @@ public class CollisionEngine
 			{
 				if(details.getPotentialCollision()!=null)
 				{
-					if(details.getPotentialCollision().getType().equals("AbsorberWidget"))
+					if(details.getPotentialCollision().getType().equals("Absorber"))
 					{
 						ballsInsideAbsorber.add(ball);
+						ball.setXpos(details.getPotentialCollision().getXpos()+(double)WIDGET_LENGTH/2);
+						ball.setYpos(details.getPotentialCollision().getYpos()+(double)WIDGET_LENGTH/2);
 					}
 					details.setCollidedBoardObject(details.getPotentialCollision());
 				}

@@ -13,12 +13,19 @@ public interface GizmoWidget extends Displayable, Observable
 
 	List<String> getConnection();
 
-	Color getColor();
-
 	BoundingBox getBoundingBox();
 
 	int getRotateTime();
 
 	void trigger(boolean keyPressed,boolean keyReleased);
+
+	default boolean getKeyPressed()
+	{
+		return false;
+	}
+
+	boolean isTriggered();
+
+	void activateAction();
 
 }

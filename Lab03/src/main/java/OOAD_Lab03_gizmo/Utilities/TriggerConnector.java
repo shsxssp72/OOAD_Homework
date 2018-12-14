@@ -3,25 +3,26 @@ package OOAD_Lab03_gizmo.Utilities;
 import OOAD_Lab03_gizmo.Model.Widget.GizmoWidget;
 import javafx.scene.input.KeyEvent;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class TriggerConnector
 {
 	private static final Map<GizmoWidget,Set<GizmoWidget>> widgetTriggers=new HashMap<>();
 	private static final Map<KeyboardEvent,Set<GizmoWidget>> keyTriggers=new HashMap<>();
 
+	private static final Map<GizmoWidget,List<GizmoWidget>> widgetTriggersReverse=new HashMap<>();
+	private static final Map<GizmoWidget,List<KeyboardEvent>> keyTriggersReverse=new HashMap<>();
+
 	public static void addTrigger(GizmoWidget trigger,GizmoWidget triggered)
 	{
 		if(trigger!=null&&triggered!=null)
 		{
-			if(!widgetTriggers.containsKey(trigger))
-			{
-				widgetTriggers.put(trigger,new HashSet<>());
-			}
+
+			widgetTriggers.put(trigger,new HashSet<>());
 			widgetTriggers.get(trigger).add(triggered);
+
+			widgetTriggersReverse.put(triggered,new ArrayList<>());
+			widgetTriggersReverse.get(triggered).add(trigger);
 			Logger.LogWriteLine("Connect "+trigger.getName()+" "+triggered.getName());
 		}
 	}
@@ -30,22 +31,18 @@ public class TriggerConnector
 	{
 		if(trigger!=null&&triggered!=null)
 		{
-			if(!keyTriggers.containsKey(trigger))
-			{
-				keyTriggers.put(trigger,new HashSet<>());
-			}
+
+			keyTriggers.put(trigger,new HashSet<>());
 			keyTriggers.get(trigger).add(triggered);
 
+			keyTriggersReverse.put(triggered,new ArrayList<>());
+			keyTriggersReverse.get(triggered).add(trigger);
+
 			String type=null;
-			if(trigger.getType()==KeyEvent.KEY_PRESSED)
-			{
-				type="up";
-			}
-			else if(trigger.getType()==KeyEvent.KEY_RELEASED)
-			{
-				type="down";
-			}
-			Logger.LogWriteLine("KeyConnect key "+"\""+trigger.getCode().getName()+"\" "+type+" "+triggered.getName());
+			type="up";
+
+
+//			Logger.LogWriteLine("KeyConnect key "+"\""+trigger.getCode().getName()+"\" "+type+" "+triggered.getName());
 		}
 	}
 
@@ -93,5 +90,18 @@ public class TriggerConnector
 			return new HashSet<>();
 		}
 	}
+
+
+	public static List<GizmoWidget> getTriggerGizmosReverse(GizmoWidget triggered)
+	{
+		return widgetTriggersReverse.getOrDefault(triggered,null);
+	}
+
+	public static List<KeyboardEvent> getTriggerGizmoReverse(GizmoWidget triggered)
+	{
+		return keyTriggersReverse.getOrDefault(triggered,null);
+	}
+
+
 
 }

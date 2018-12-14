@@ -1,6 +1,6 @@
 package OOAD_Lab03_gizmo.Model.Widget;
 
-import static OOAD_Lab03_gizmo.Config.Constants.*;
+import static OOAD_Lab03_gizmo.config.Constants.*;
 
 public class BoundingBox
 {
@@ -32,9 +32,9 @@ public class BoundingBox
 			return true;
 		if(this.xBottomRight>BOARD_WIDTH||this.xBottomRight<WIDGET_LENGTH)
 			return true;
-		if(this.yTopLeft>BOARD_LENGTH-WIDGET_LENGTH||this.yTopLeft<0)
+		if(this.yTopLeft> BOARD_HEIGHT -WIDGET_LENGTH||this.yTopLeft<0)
 			return true;
-		if(this.yBottomRight>BOARD_LENGTH||this.yBottomRight<WIDGET_LENGTH)
+		if(this.yBottomRight> BOARD_HEIGHT ||this.yBottomRight<WIDGET_LENGTH)
 			return true;
 
 		return false;

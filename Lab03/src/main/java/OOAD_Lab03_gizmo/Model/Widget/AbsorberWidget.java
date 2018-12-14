@@ -1,17 +1,15 @@
 package OOAD_Lab03_gizmo.Model.Widget;
 
-import OOAD_Lab03_gizmo.Config.Constants;
 import OOAD_Lab03_gizmo.Utilities.IO_Interface;
 import OOAD_Lab03_gizmo.Utilities.Observer;
 import physics.Circle;
 import physics.LineSegment;
-import physics.Vect;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static OOAD_Lab03_gizmo.Config.Constants.WIDGET_LENGTH;
+import static OOAD_Lab03_gizmo.config.Constants.WIDGET_LENGTH;
 
 
 public class AbsorberWidget implements GizmoWidget {
@@ -24,16 +22,20 @@ public class AbsorberWidget implements GizmoWidget {
 	private double width = WIDGET_LENGTH;
 	private Color color = Color.magenta;
 	private final List<Observer> observerList = new ArrayList<>();
+	private final boolean triggered = false;
+
 
 	@Override
 	public String getType() {
-		return "AbsorberWidget";
+		return "Absorber";
 	}
 
 	public AbsorberWidget(String name, double xpos, double ypos) {
 		this.name = name;
 		this.xpos = xpos;
 		this.ypos = ypos;
+		InitCircles();
+		InitLines();
 	}
 
 	private void InitCircles() {
@@ -80,11 +82,6 @@ public class AbsorberWidget implements GizmoWidget {
 	}
 
 	@Override
-	public Color getColor() {
-		return color;
-	}
-
-	@Override
 	public void setXpos(double x) {
 		xpos = x;
 		NotifyAll();
@@ -118,9 +115,17 @@ public class AbsorberWidget implements GizmoWidget {
 
 	@Override
 	public void trigger(boolean keyPressed, boolean keyReleased) {
-
+//  default ignore...
 	}
 
+	@Override
+	public void activateAction() {
+		NotifyAll();
+	}
 
+	@Override
+	public boolean isTriggered() {
+		return triggered;
+	}
 }
 

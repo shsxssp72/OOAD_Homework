@@ -141,3 +141,40 @@
 .button:default:hover {
     -fx-background-color: derive(-fx-focus-color,30%);
 }
+
+.grid {
+    -fx-border-color: black;
+}
+
+.ball {
+    -fx-fill: #990000;
+}
+
+.absorberWidget {
+    -fx-fill: #a2b3ff;
+}
+
+.circleWidget {
+    -fx-fill: #00C89B;
+}
+
+.squareWidget {
+    -fx-fill: #ff009f;
+}
+
+.triangleWidget {
+    -fx-fill: #bbff00;
+}
+
+.flipperWidget {
+    -fx-fill: #00beff;
+}
+
+.flipperPivot {
+    -fx-fill: #0073a0;
+}
+
+.rightPanel {
+    -fx-background-color: derive(#154a8f, -10%);
+    -fx-background-radius: 10;
+}

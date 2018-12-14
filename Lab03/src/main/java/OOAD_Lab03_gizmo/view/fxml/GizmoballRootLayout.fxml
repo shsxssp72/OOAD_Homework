@@ -7,47 +7,50 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" stylesheets="@../css/SolarizedLight.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            stylesheets="@../css/SolarizedLight.css" xmlns="http://javafx.com/javafx/8"
+            fx:controller="OOAD_Lab03_gizmo.controller.GizmoballController"
+            fx:id="rootLayout"
+            xmlns:fx="http://javafx.com/fxml/1">
     <center>
-        <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+        <StackPane fx:id="centerPane" BorderPane.alignment="CENTER">
+            <fx:include fx:id="playground" source="GizmoballPlayView.fxml">
+            </fx:include>
+            <fx:include fx:id="buildground" source="GizmoballBuildView.fxml">
+            </fx:include>
+        </StackPane>
     </center>
+
     <top>
         <MenuBar BorderPane.alignment="CENTER">
             <menus>
                 <Menu mnemonicParsing="false" text="File">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="New">
+                        <MenuItem fx:id="loadButton" mnemonicParsing="false" text="Load">
                             <accelerator>
-                                <KeyCodeCombination alt="UP" code="N" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                                <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP"
+                                                    shortcut="UP"/>
                             </accelerator>
                         </MenuItem>
-                        <MenuItem mnemonicParsing="false" text="Load">
+                        <MenuItem fx:id="saveButton" mnemonicParsing="false" text="Save">
                             <accelerator>
-                                <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                                <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP"
+                                                    shortcut="UP"/>
                             </accelerator>
                         </MenuItem>
-                        <MenuItem mnemonicParsing="false" text="Save">
+                        <MenuItem fx:id="exitButton" mnemonicParsing="false" text="Exit">
                             <accelerator>
-                                <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                            </accelerator>
-                        </MenuItem>
-                        <MenuItem mnemonicParsing="false" text="Save As">
-                            <accelerator>
-                                <KeyCodeCombination alt="DOWN" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                            </accelerator>
-                        </MenuItem>
-                        <MenuItem mnemonicParsing="false" text="Exit">
-                            <accelerator>
-                                <KeyCodeCombination alt="UP" code="ESCAPE" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                                <KeyCodeCombination alt="UP" code="ESCAPE" control="UP" meta="UP" shift="UP"
+                                                    shortcut="UP"/>
                             </accelerator>
                         </MenuItem>
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="About">
+                        <MenuItem fx:id="helpButton" mnemonicParsing="false" text="About">
                             <accelerator>
-                                <KeyCodeCombination alt="UP" code="F1" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                                <KeyCodeCombination alt="UP" code="F1" control="UP" meta="UP" shift="UP" shortcut="UP"/>
                             </accelerator>
                         </MenuItem>
                     </items>

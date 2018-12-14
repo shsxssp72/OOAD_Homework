@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<?import OOAD_Lab03_gizmo.view.visual.SquareWidgetVisual?>
+<?import OOAD_Lab03_gizmo.view.visual.TriangleWidgetVisual?>
+<?import OOAD_Lab03_gizmo.view.visual.CircleWidgetVisual?>
+<?import OOAD_Lab03_gizmo.view.visual.FlipperWidgetVisual?>
+<?import OOAD_Lab03_gizmo.view.visual.AbsorberWidgetVisual?>
+<?import OOAD_Lab03_gizmo.view.visual.BallVisual?>
+<?import OOAD_Lab03_gizmo.config.Constants?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            stylesheets="@../css/SolarizedLight.css" xmlns="http://javafx.com/javafx/8"
+            fx:controller="OOAD_Lab03_gizmo.controller.BuildViewController"
+            fx:id="buildgroundRoot"
+            xmlns:fx="http://javafx.com/fxml/1">
+
+    <fx:define>
+        <Constants fx:id="oneLInPixels" fx:constant="ONE_L_IN_PIXELS"/>
+    </fx:define>
+
+    <right>
+        <VBox>
+            <BorderPane.margin>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+            </BorderPane.margin>
+            <children>
+                <HBox>
+                    <children>
+                        <VBox>
+                            <children>
+                                <ToggleButton fx:id="moveButton" mnemonicParsing="false" prefWidth="91.0" text="Move">
+                                    <VBox.margin>
+                                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                                    </VBox.margin>
+                                </ToggleButton>
+                                <ToggleButton fx:id="rotateButton" mnemonicParsing="false" prefWidth="91.0"
+                                              text="Rotate">
+                                    <VBox.margin>
+                                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                                    </VBox.margin>
+                                </ToggleButton>
+                                <ToggleButton fx:id="deleteButton" mnemonicParsing="false" prefWidth="91.0"
+                                              text="Delete">
+                                    <VBox.margin>
+                                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                                    </VBox.margin>
+                                </ToggleButton>
+                                <Separator prefWidth="91.0"/>
+                                <ToggleButton fx:id="assignButton" mnemonicParsing="false" prefWidth="125.0"
+                                              text="Assign Key">
+                                    <VBox.margin>
+                                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                                    </VBox.margin>
+                                </ToggleButton>
+                                <Separator prefWidth="91.0"/>
+                                <Button fx:id="clearBoardButton" mnemonicParsing="false" prefWidth="125.0"
+                                        text="Clear Board">
+                                    <VBox.margin>
+                                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                                    </VBox.margin>
+                                </Button>
+                                <Separator prefWidth="91.0"/>
+                                <Button fx:id="switchButton" mnemonicParsing="false" prefWidth="91.0" text="Switch">
+                                    <VBox.margin>
+                                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                                    </VBox.margin>
+                                </Button>
+                            </children>
+                        </VBox>
+                        <VBox>
+                            <children>
+                                <VBox alignment="CENTER" spacing="20">
+                                    <Label text="Not Movable"/>
+                                    <SquareWidgetVisual fx:id="squareButton"/>
+                                    <TriangleWidgetVisual fx:id="triangleButton"/>
+                                    <CircleWidgetVisual fx:id="circleButton"/>
+                                </VBox>
+
+                                <Separator/>
+
+                                <VBox alignment="CENTER" spacing="20">
+                                    <Label text="Movable"/>
+                                    <FlipperWidgetVisual fx:id="leftFlipperButton" type="LEFT_FLIPPER"/>
+                                    <FlipperWidgetVisual fx:id="rightFlipperButton" type="RIGHT_FLIPPER"/>
+                                </VBox>
+
+                                <Separator/>
+
+                                <VBox alignment="CENTER" spacing="20">
+                                    <Label text="Special"/>
+                                    <AbsorberWidgetVisual fx:id="absorberButton"/>
+                                </VBox>
+
+                                <Separator/>
+
+                                <VBox alignment="CENTER" spacing="20">
+                                    <Label text="Ball"/>
+                                    <BallVisual fx:id="ballButton"/>
+                                </VBox>
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </right>
+    <bottom>
+        <Label fx:id="log" alignment="BOTTOM_LEFT" text="Logging..." BorderPane.alignment="CENTER"/>
+    </bottom>
+
+    <center>
+
+    </center>
+
+</BorderPane>

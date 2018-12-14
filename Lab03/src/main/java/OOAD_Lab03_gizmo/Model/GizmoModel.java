@@ -2,12 +2,13 @@ package OOAD_Lab03_gizmo.Model;
 
 import OOAD_Lab03_gizmo.Model.Widget.*;
 import OOAD_Lab03_gizmo.Utilities.Logger;
+import OOAD_Lab03_gizmo.Utilities.TriggerConnector;
 import physics.Geometry;
 import physics.Vect;
 
 import java.util.List;
 
-import static OOAD_Lab03_gizmo.Config.Constants.*;
+import static OOAD_Lab03_gizmo.config.Constants.*;
 import static OOAD_Lab03_gizmo.Utilities.IO_Interface.DebugWriteLine;
 
 public class GizmoModel
@@ -15,6 +16,8 @@ public class GizmoModel
 	private CollisionEngine collisionEngine;
 	private static int widgetCount=0;
 	private static int ballCount=0;
+
+	private String errorMessage="";
 
 	public GizmoModel()
 	{
@@ -42,35 +45,51 @@ public class GizmoModel
 		collisionEngine.setFrictionFactor2(inFrictionFactor2);
 	}
 
+	private void activateWidgetActions()
+	{
+		for(GizmoWidget widget: getWidgetList())
+		{
+			widget.activateAction();
+		}
+	}
 
 	public void runBalls()
 	{
 		collisionEngine.collide(SECOND_PER_FRAME);
+
+//		listen for triggers
+		sendTriggers();
+
+		activateWidgetActions();
 	}
 
 	//TODO 对于所有Displayable添加观察者
 	public boolean addWidget(double xpos,double ypos,String type)
 	{
 		GizmoWidget widget=null;
-		if(type.equals("CircleWidget"))
+		if(type.equals("Circle"))
 		{
 			widget=new CircleWidget("C"+widgetCount,xpos,ypos);
 		}
-		else if(type.equals("SquareWidget"))
+		else if(type.equals("Square"))
 		{
 			widget=new SquareWidget("S"+widgetCount,xpos,ypos);
 		}
-		else if(type.equals("TriangleWidget"))
+		else if(type.equals("Triangle"))
 		{
 			widget=new TriangleWidget("T"+widgetCount,xpos,ypos);
 		}
-		else if(type.equals("FlipperWidget"))
+		else if(type.equals("RIGHT_FLIPPER"))
 		{
-
+			widget=new FlipperWidget(xpos,ypos,0,"F"+widgetCount,"RIGHT_FLIPPER");
 		}
-		else if(type.equals("AbsorberWidget"))
+		else if(type.equals("LEFT_FLIPPER"))
 		{
-
+			widget=new FlipperWidget(xpos,ypos,0,"F"+widgetCount,"LEFT_FLIPPER");
+		}
+		else if(type.equals("Absorber"))
+		{
+			widget=new AbsorberWidget("A"+widgetCount,xpos,ypos);
 		}
 		else //不匹配处理
 		{
@@ -82,11 +101,13 @@ public class GizmoModel
 		if(isOutside(widget))
 		{
 			//通过返回值判定
+			setMessage("Gizmo cannot be placed outside of the board!");
 			return false;
 		}
 		if(isIntersecting(widget))
 		{
 			//通过返回值判定
+			setMessage("Gizmo cannot be placed here!");
 			return false;
 		}
 
@@ -103,7 +124,7 @@ public class GizmoModel
 		//TODO LOG
 		if(isBallIntersecting(ball))
 		{
-			//setMessage("Ball cannot be intersecting with any gizmos.");
+			setMessage("Ball cannot be intersecting with any gizmos!");
 			collisionEngine.removeBall(ball);
 			return false;
 		}
@@ -143,7 +164,7 @@ public class GizmoModel
 		if(isOutside(widget))
 		{
 			//TODO LOG
-			//setMessage("Cannot move a gizmo outside of the playable board.");
+			setMessage("Cannot move a gizmo outside of the playable board!");
 			widget.setXpos(xpos);
 			widget.setYpos(ypos);
 			return false;
@@ -151,7 +172,7 @@ public class GizmoModel
 		if(isIntersecting(widget))
 		{
 			//TODO LOG
-			//setMessage("Cannot move gizmo within another gizmo.");
+			setMessage("Cannot move gizmo within another gizmo!");
 			widget.setXpos(xpos);
 			widget.setYpos(ypos);
 			return false;
@@ -170,7 +191,7 @@ public class GizmoModel
 		if(isBallIntersecting(ball))
 		{
 			//TODO LOG
-			//setMessage("Cannot move ball within another ball.");
+			setMessage("Cannot move ball within another ball!");
 			ball.setXpos(xpos);
 			ball.setYpos(ypos);
 			return false;
@@ -213,6 +234,30 @@ public class GizmoModel
 		return null;
 	}
 
+	public GizmoWidget getWidgetByName(String name)
+	{
+		for(GizmoWidget widget: getWidgetList())
+		{
+			if(widget.getName().equals(name))
+			{
+				return widget;
+			}
+		}
+		return null;
+	}
+
+	public Ball getBallByName(String name)
+	{
+		for(Ball ball: getBallList())
+		{
+			if(ball.getName().equals(name))
+			{
+				return ball;
+			}
+		}
+		return null;
+	}
+
 
 	private boolean ballVelocityIntersectionCheck(double x,double y,Ball ball)
 	{
@@ -242,7 +287,6 @@ public class GizmoModel
 				}
 			}
 		}
-
 		return false;
 	}
 
@@ -319,4 +363,31 @@ public class GizmoModel
 	{
 		return collisionEngine.getWidgetList();
 	}
+
+	private void sendTriggers()
+	{
+		for(Ball ball: getBallList())
+		{
+			Displayable collidedBoardObject=collisionEngine.getCollisionDetailByBall(ball).getCollidedBoardObject();
+			if(collidedBoardObject!=null&&!collidedBoardObject.getType().equals("Wall")&&!collidedBoardObject.getType()
+					.equals("Ball"))
+			{
+				for(GizmoWidget widget: TriggerConnector.getTriggeredGizmos((GizmoWidget)collidedBoardObject))
+				{    //TODO: change to include walls
+					widget.trigger(false,true);
+				}
+			}
+		}
+	}
+
+	public void setMessage(String s)
+	{
+		errorMessage=s;
+	}
+
+	public String getMessage()
+	{
+		return errorMessage;
+	}
+
 }

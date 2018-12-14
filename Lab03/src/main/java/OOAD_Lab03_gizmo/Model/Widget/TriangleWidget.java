@@ -18,13 +18,14 @@ public class TriangleWidget implements GizmoWidget
 	private double ypos=0;
 	private double width=1;
 	private int rotateTime=0;
-	private Color color=Color.green;
 	private final List<Observer> observerList=new ArrayList<>();
+	private boolean triggered=false;
+
 
 	@Override
 	public String getType()
 	{
-		return "TriangleWidget";
+		return "Triangle";
 	}
 
 	public TriangleWidget(String name,double xpos,double ypos)
@@ -99,7 +100,7 @@ public class TriangleWidget implements GizmoWidget
 				vertices.add(new Circle(xpos+width,ypos,0));
 				vertices.add(new Circle(xpos+width,ypos+width,0));
 				vertices.add(new Circle(xpos,ypos,0));
-				rotateTime++;
+				this.rotateTime++;
 				break;
 			}
 			case 1:
@@ -139,6 +140,7 @@ public class TriangleWidget implements GizmoWidget
 				break;
 			}
 		}
+		NotifyAll();
 	}
 
 	@Override
@@ -147,11 +149,6 @@ public class TriangleWidget implements GizmoWidget
 		return connections;
 	}
 
-	@Override
-	public Color getColor()
-	{
-		return color;
-	}
 
 	@Override
 	public void setXpos(double x)
@@ -195,4 +192,16 @@ public class TriangleWidget implements GizmoWidget
 	{
 
 	}
+	@Override
+	public boolean isTriggered()
+	{
+		return triggered;
+	}
+	@Override
+	public void activateAction()
+	{
+		NotifyAll();
+
+	}
+
 }
